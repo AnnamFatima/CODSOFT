@@ -5,88 +5,131 @@ from datetime import datetime
 import threading
 
 class ToDoList:
-    def __init__(self,root):
+    def __init__(self, root):
         self.root = root
         self.root.title("To-Do List")
         self.tasks = []
 
         # Set Background color
-        self.root.configure(background = '#f0f0f0')
+        self.root.configure(background='#f0f0f0')
 
-        #Create Task List Frame 
+        # Create Task List Frame
         self.task_list_frame = tk.Frame(self.root, bg='#f0f0f0')
-        self.task_list_frame.pack(fill = "both", expand = True)
+        self.task_list_frame.pack(fill="both", expand=True)
 
-        #Create task List box
-        self.task_list_box = tk.Listbox(self.task_list_frame, width = 50, bg ='#ffffff', fg = '#000000', font = ('Arial', 12),highlightthickness=3)
-        self.task_list_box.pack(fill="both" , expand = True)
+        # Create task List box
+        self.task_list_box = tk.Listbox(self.task_list_frame, width=50, bg='#ffffff', fg='#000000', font=('Arial', 12), highlightthickness=3)
+        self.task_list_box.pack(fill="both", expand=True)
 
-        #Create Scrollbar
+        # Create Scrollbar
         self.scrollbar = tk.Scrollbar(self.task_list_frame)
-        self.scrollbar.config(command=self.task_list_frame)
-        self.scrollbar.pack(side ="right", fill="y")
-        self.task_list_box.config(yscrollcommand=self.scrollbar.set)
         self.scrollbar.config(command=self.task_list_box.yview)
+        self.scrollbar.pack(side="right", fill="y")
+        self.task_list_box.config(yscrollcommand=self.scrollbar.set)
 
-        #Create Entry Frame
+        # Create Entry Frame
         self.entry_frame = tk.Frame(self.root, bg='#f0f0f0')
         self.entry_frame.pack(fill="x")
 
-        #Create task entry
-        self.task_entry = tk.Entry(self.entry_frame, width=40, bg = '#ffffff', fg = '#000000', font=('Arial', 12))
-        self.task_entry.pack(Side="left")
+        # Create task entry
+        self.task_entry = tk.Entry(self.entry_frame, width=40, bg='#ffffff', fg='#000000', font=('Arial', 12))
+        self.task_entry.pack(side="left")
 
-        #Create add task button
-        self.add_task_button = tk.Button( self.entry_frame, text="Add Task", command=self.add_task, bg='#add8e6', fg='#000000', font=('Arial', 12))
+        # Create add task button
+        self.add_task_button = tk.Button(self.entry_frame, text="Add Task", command=self.add_task, bg='#add8e6', fg='#000000', font=('Arial', 12))
         self.add_task_button.pack(side="left")
 
-        #Create Delete task button
-        self.delete_task_button = tk.Button( self.entry_frame, text="Delete Task", command=self.delete_task, bg='#ffcccb', fg='#000000', font=('Arial', 12))
+        # Create delete task button
+        self.delete_task_button = tk.Button(self.entry_frame, text="Delete Task", command=self.delete_task, bg='#ffcccb', fg='#000000', font=('Arial', 12))
         self.delete_task_button.pack(side="left")
 
-        #Create Update task button
-        self.update_task_button = tk.Button( self.entry_frame, text="Update Task", command=self.update_task, bg='#d3d3d3', fg='#000000', font=('Arial', 12))
+        # Create update task button
+        self.update_task_button = tk.Button(self.entry_frame, text="Update Task", command=self.update_task, bg='#d3d3d3', fg='#000000', font=('Arial', 12))
         self.update_task_button.pack(side="left")
 
-        #Create set priority button
-        self.priority_button = tk.Button( self.entry_frame, text="Set Priority", command=self.add_priority, bg='#98fb98', fg='#000000', font=('Arial', 12))
+        # Create set priority button
+        self.priority_button = tk.Button(self.entry_frame, text="Set Priority", command=self.set_priority, bg='#98fb98', fg='#000000', font=('Arial', 12))
         self.priority_button.pack(side="left")
 
-        #Create set deadline button
-        self.deadline_button = tk.Button( self.entry_frame, text="Set Deadline", command=self.add_deadline, bg='#ffd700', fg='#000000', font=('Arial', 12))
+        # Create set deadline button
+        self.deadline_button = tk.Button(self.entry_frame, text="Set Deadline", command=self.set_deadline, bg='#ffd700', fg='#000000', font=('Arial', 12))
         self.deadline_button.pack(side="left")
 
-def add_task(self):
-    task = self.task_entry.get()
-    if task:
-        self.task.append({'task':task, 'priority':'None', 'deadline': 'None'})
-        self.task_list_box.insert("end",task)
-        self.task_entry.delete(0, "end")
-    else:
-        messagebox.showerror("Error", "Please enter a task")
-
-def delete_task(self):
-    try:
-        task_index = self.task_list_box.curselection()[0]
-        self.task_list_box.delete(task_index)
-        self.tasks.pop(task_index)
-    except IndexError:
-        messagebox.showerror("Error", "Please select a task to delete")
-
-def update_task(self):
-    try:
-        task_index = self.task_list_box.curselection()[0]
-        self.task_list_entry.get()
+    def add_task(self):
+        task = self.task_entry.get()
         if task:
-            self.task[task_index]['task'] = task
-            self.task_list_box.delete(task_index)
-            self.task_list_box.insert(task_index, task)
+            self.tasks.append({'task': task, 'priority': 'None', 'deadline': 'None'})
+            self.task_list_box.insert("end", task)
             self.task_entry.delete(0, "end")
-        else
-            messagebox.showerror("Error","Please enter a task to update")
-    except IndexError:
-        messagebox.showerror("Error", " Please select a task to update")
+        else:
+            messagebox.showerror("Error", "Please enter a task")
 
-def 
+    def delete_task(self):
+        try:
+            task_index = self.task_list_box.curselection()[0]
+            self.task_list_box.delete(task_index)
+            self.tasks.pop(task_index)
+        except IndexError:
+            messagebox.showerror("Error", "Please select a task to delete")
+
+    def update_task(self):
+        try:
+            task_index = self.task_list_box.curselection()[0]
+            task = self.task_entry.get()
+            if task:
+                self.tasks[task_index]['task'] = task
+                self.update_task_display(task_index)
+                self.task_entry.delete(0, "end")
+            else:
+                messagebox.showerror("Error", "Please enter a task to update")
+        except IndexError:
+            messagebox.showerror("Error", "Please select a task to update")
+
+    def set_priority(self):
+        try:
+            task_index = self.task_list_box.curselection()[0]
+            priority = simpledialog.askstring("Priority", "Enter priority (High, Medium, Low):")
+            if priority and priority in ["High", "Medium", "Low"]:
+                self.tasks[task_index]['priority'] = priority
+                self.update_task_display(task_index)
+            else:
+                messagebox.showerror("Error", "Please enter a valid priority (High, Medium, Low)")
+        except IndexError:
+            messagebox.showerror("Error", "Please select a task to set priority")
+
+    def set_deadline(self):
+        try:
+            task_index = self.task_list_box.curselection()[0]
+            deadline = simpledialog.askstring("Deadline", "Enter deadline (YYYY-MM-DD HH:MM):")
+            try:
+                deadline_dt = datetime.strptime(deadline, "%Y-%m-%d %H:%M")
+                self.tasks[task_index]['deadline'] = deadline
+                self.update_task_display(task_index)
+                self.schedule_notification(task_index, deadline_dt)
+            except ValueError:
+                messagebox.showerror("Error", "Please enter a valid deadline (YYYY-MM-DD HH:MM)")
+        except IndexError:
+            messagebox.showerror("Error", "Please select a task to set deadline")
+
+    def update_task_display(self, task_index):
+        task_info = self.tasks[task_index]
+        task_display = f"{task_info['task']} [Priority: {task_info['priority']}, Deadline: {task_info['deadline']}]"
+        self.task_list_box.delete(task_index)
+        self.task_list_box.insert(task_index, task_display)
+
+    def schedule_notification(self, task_index, deadline_dt):
+        def show_notification():
+            messagebox.showinfo("Task Notification", f"Task '{self.tasks[task_index]['task']}' is due!")
+
+        now = datetime.now()
+        delay = (deadline_dt - now).total_seconds()
+        if delay > 0:
+            threading.Timer(delay, show_notification).start()
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    todo_list = ToDoList(root)
+    root.mainloop()
 
     
