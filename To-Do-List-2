@@ -71,6 +71,22 @@ def delete_task(self):
         self.task_list_box.delete(task_index)
         self.tasks.pop(task_index)
     except IndexError:
-        messagebox.showerror("Error", "")
+        messagebox.showerror("Error", "Please select a task to delete")
+
+def update_task(self):
+    try:
+        task_index = self.task_list_box.curselection()[0]
+        self.task_list_entry.get()
+        if task:
+            self.task[task_index]['task'] = task
+            self.task_list_box.delete(task_index)
+            self.task_list_box.insert(task_index, task)
+            self.task_entry.delete(0, "end")
+        else
+            messagebox.showerror("Error","Please enter a task to update")
+    except IndexError:
+        messagebox.showerror("Error", " Please select a task to update")
+
+def 
 
     
